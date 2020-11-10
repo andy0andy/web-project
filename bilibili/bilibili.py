@@ -3,6 +3,11 @@ from fake_useragent import UserAgent
 import re
 from loguru import logger
 import os
+from moviepy import editor
+
+
+
+
 
 
 ua = UserAgent()
@@ -55,7 +60,44 @@ class Bilibili(object):
         self._get_file(bv, 'audio', audio_url, os.path.join(os.getcwd(), 'download'))
 
 
+    # 音频视频拼接  *
+    def intact(self, video_file, audio_file):
 
+        video = editor.VideoFileClip(video_file)
+        audio = editor.VideoFileClip(audio_file)
+
+        new_video = editor.concatenate_videoclips([video, audio])
+        new_video.write_videofile("new_video.mp4", fps=24, remove_temp=False)
+
+
+    # 综合搜索接口
+    def search(self, q):
+        url = "https://api.bilibili.com/x/web-interface/search/all/v2"
+        
+        params = {
+            "context": "", 
+            "page": "1",
+            "order": "", 
+            "keyword": q,
+            "duration": "", 
+            "tids_1": "", 
+            "tids_2": "", 
+            "__refresh__": True,
+            "_extra": "", 
+            "highlight": "1",
+            "single_column": "0"
+        }
+
+        headers = {
+            'User-Agent': ua.random
+        }
+
+        response = requests.get(url, headers=headers, params=params)
+        data = response.json()
+
+        video = data['data']['result'][-1]
+
+        return video
 
 
 
@@ -65,8 +107,11 @@ if __name__ == "__main__":
 
     bilibili = Bilibili()
 
-    bilibili.download(bv)
+    # bilibili.download(bv)
 
+    # bilibili.intact("download/BV1t7411a75K/audio_BV1t7411a75K.mp4", "download/BV1t7411a75K/video_BV1t7411a75K.mp4")
+    
+    bilibili.search("女王的棋局")
 
-
+    
 
