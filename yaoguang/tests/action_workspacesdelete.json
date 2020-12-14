@@ -1,0 +1,16 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "workspacesdelete",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"id": ""
+		}
+	}
+}

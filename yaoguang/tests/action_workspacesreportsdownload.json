@@ -1,0 +1,18 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "workspacesreportsdownload",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"format": "html",
+			"id": "",
+			"workspaceid": ""
+		}
+	}
+}

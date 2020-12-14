@@ -1,0 +1,28 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "tasksstartwebsploit",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"connection": "Auto",
+			"cookie": "",
+			"httpdomain": "",
+			"httppassword": "",
+			"httpusername": "",
+			"limitsessions": true,
+			"payloadhosts": "",
+			"payloadports": "",
+			"payloadtype": "Meterpreter",
+			"targets": "",
+			"timeout": "",
+			"useragent": "",
+			"workspaceid": ""
+		}
+	}
+}

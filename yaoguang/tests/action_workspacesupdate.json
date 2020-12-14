@@ -1,0 +1,20 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "workspacesupdate",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"boundary": "",
+			"description": "",
+			"id": "",
+			"limit_to_network": "0",
+			"name": ""
+		}
+	}
+}

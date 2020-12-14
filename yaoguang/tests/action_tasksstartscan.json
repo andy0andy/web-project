@@ -1,0 +1,47 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "tasksstartscan",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"addressstring": "",
+			"autotagos": "",
+			"blackstring": "",
+			"cookie": "",
+			"customnmap": "",
+			"dryrun": true,
+			"fastdetect": true,
+			"fingerusers": true,
+			"h323scan": true,
+			"httpdomian": "",
+			"httppassword": "",
+			"httpusername": "",
+			"identifyservices": true,
+			"initialnmap": true,
+			"initialwebscan": true,
+			"portsblacklist": "",
+			"portscansourceport": "",
+			"portscantimeout": "",
+			"portscustom": "",
+			"portsextra": true,
+			"porttscanspeed": 0,
+			"singlescan": true,
+			"smbdomain": "",
+			"smbpassword": "",
+			"smbusernmae": "",
+			"snmpscan": true,
+			"udpprobes": true,
+			"useragent": "",
+			"webscanmaxminute": "",
+			"webscanmaxpages": "",
+			"webscanmaxthreads": "",
+			"workspaceid": ""
+		}
+	}
+}

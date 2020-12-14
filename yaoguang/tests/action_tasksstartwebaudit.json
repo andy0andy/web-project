@@ -1,0 +1,26 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "tasksstartwebaudit",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"cookie": "",
+			"directobjectreference": true,
+			"httpdomain": "",
+			"httppassword": "",
+			"httpusername": "",
+			"knowntargets": "",
+			"maxminutes": 0,
+			"maxthreads": 0,
+			"sessioncookiename": "",
+			"useragent": "",
+			"workspaceid": ""
+		}
+	}
+}

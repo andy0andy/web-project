@@ -1,0 +1,17 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "tasksstartcleanup",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"cleanupsessions": [],
+			"workspaceid": ""
+		}
+	}
+}

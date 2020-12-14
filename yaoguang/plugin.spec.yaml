@@ -1,0 +1,4241 @@
+plugin_spec_version: v2
+name: yaoguang
+title: 
+  en: "YaoGuang"
+  zh-CN: "碳泽 - 摇光"
+description:
+  en: "YaoGuang api"
+  zh-CN: "碳泽-摇光 API接口"
+version: 0.1.0
+vendor: chariot
+tags: 
+  - "YaoGuang"
+  - "REST API"
+enable_cache: true
+sts: 
+  "supported" 
+langage: python
+server: https
+
+  
+
+
+
+types:
+  workspacetype:
+    name: 
+      title: 
+        en: Name
+        zh-CN: "项目名称"
+      type: string
+      required: true
+    description: 
+      title: 
+        en: Description
+        zh-CN: "项目描述"
+      type: string
+      required: true
+    boundary: 
+      title: 
+        en: Boundary
+        zh-CN: "项目网络区间"
+      type: string
+      required: true
+    limit_to_network: 
+      title: 
+        en: Limit To Network
+        zh-CN: "是否限定网络范围"
+      type: string
+      required: true
+      enum: 
+        - "0"
+        - "1"
+    owner_id: 
+      title: 
+        en: Owner ID
+        zh-CN: "项目所属用户ID"
+      type: string
+      description: 
+        en: "Required when creating an item, not when updating"
+        zh-CN: "创建项目时必填，更新时不填"
+      required: false
+  reportstype: 
+    report_type:
+      title:
+        en: Report Type
+        zh-CN: "报告类型"
+      type: string
+      required: true
+      enum:
+        - "audit"
+        - "collected_evidence"
+        - "compromised_hosts"
+        - "credentials"
+        - "services"
+        - "social_engineering"
+        - "webapp_assessment"
+    file_fomats:
+      title:
+        en: File Fomats
+        zh-CN: "报告文件类型"
+      type: string
+      required: true
+      enum: 
+        - "word"
+        - "pdf"
+        - "html"
+    name:
+      title:
+        en: Name
+        zh-CN: "报告名称"
+      type: string
+      required: true
+    included_addresses:
+      title:
+        en: Included Addresses
+        zh-CN: "包含地址"
+      type: string
+      required: true
+    excluded_addresses:
+      title:
+        en: Excluded Addresses
+        zh-CN: "排除地址"
+      type: string
+      required: true
+    sections:
+      title:
+        en: Sections
+        zh-CN: "分区"
+      type: string
+      required: true
+      enum:
+        - "exec_summ"
+        - "compr_hosts"
+        - "compr_creds"
+        - "disc_oses"
+        - "disc_hosts"
+        - "host_details"
+        - "disc_svcs"
+        - "web_sites"
+    options:
+      title:
+        en: Options
+        zh-CN: "选项"
+      type: string
+      required: true
+      enum: 
+        - "mask_credentials"
+        - "include_sesssions"
+        - "include_charts"
+    email_recipients:
+      title:
+        en: email_recipients
+        zh-CN: "报告类型"
+      type: string
+      required: true
+  
+  qbtargettype:
+    type:
+      title:
+        en: Type
+        zh-CN: "选择主机"
+      type: string
+      required: true
+      enum:
+        - "all"
+        - "manual"
+    whitelisthost:
+      title:
+        en: Whitelist Hosts
+        zh-CN: "目标地址"
+      type: string
+      required: true
+    blacklisthosts:
+      title:
+        en: Blacklist Hosts
+        zh-CN: "排除地址"
+      type: string
+      required: true
+    allservices:
+      title:
+        en: All Services
+        zh-CN: "选择服务"
+      type: boolean
+      required: true
+  qbcreds:
+    importworkspacecreds:
+      title:
+        en: Import Workspace Creds
+        zh-CN: "本项目中的凭证"
+      type: boolean
+      required: true
+    factorydefaults: 
+      title:
+        en: Factory Defaults
+        zh-CN: "系统默认字典"
+      type: boolean
+      required: true
+    
+  quickbruteforcetype:
+    target:
+      title:
+        en: Target
+        zh-CN: "目标"
+      type: qbtargettype
+    creds:
+      title:
+        en: Creds
+        zh-CN: "凭证"
+      type: qbcredstype
+
+
+
+
+connection:
+  token: 
+    title: 
+      en: Token
+      zh-CN: "唯一标识"
+    typw: string
+    required: true
+  host: 
+    title: 
+      en: Host
+      zh-CN: "url前缀"
+    type: string
+    required: true
+    example: "https://location:port"
+
+
+
+
+
+actions:
+  workspaces:
+    title: 
+      en: Workspaces
+      zh-CN: "项目列表查询"
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title: 
+          en: Data
+          title: "返回数据"
+        type: "[]object"
+        required: false
+  workspacesid:
+    title: 
+      en: Workspaces Id
+      zh-CN: "项目详细信息查询"
+    input:
+      id:
+        title: 
+          en: Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title: 
+          en: Data
+          title: "返回数据"
+        type: object
+        required: false
+  workspacescreate:
+    title: 
+      en: Workspaces Create
+      zh-CN: "项目创建"
+    input:
+      name: 
+        title: 
+          en: Name
+          zh-CN: "项目名称"
+        type: string
+        required: true
+      description: 
+        title: 
+          en: Description
+          zh-CN: "项目描述"
+        type: string
+        required: true
+      boundary: 
+        title: 
+          en: Boundary
+          zh-CN: "项目网络区间"
+        type: string
+        required: true
+      limit_to_network: 
+        title: 
+          en: Limit To Network
+          zh-CN: "是否限定网络范围"
+        type: string
+        required: true
+        enum: 
+          - "0"
+          - "1"
+      owner_id: 
+        title: 
+          en: Owner ID
+          zh-CN: "项目所属用户ID"
+        type: string
+        description: 
+          en: "Required when creating an item, not when updating"
+          zh-CN: "创建项目时必填，更新时不填"
+        required: true
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      result: 
+        title: 
+          en: Result
+          title: "结果"
+        type: string
+        required: false
+      workspace: 
+        title: 
+          en: Workspace
+          title: "项目信息"
+        type: object
+        required: false
+      path: 
+        title: 
+          en: Path
+          title: "项目访问uri路径"
+        type: string
+        required: false
+  workspacesupdate:
+    title: 
+      en: Workspaces Update
+      zh-CN: "项目信息更新"
+    input:
+      id:
+        title: 
+          en: Id
+          zh-CN: "项目ID"
+        type: string
+        required: true
+      name: 
+        title: 
+          en: Name
+          zh-CN: "项目名称"
+        type: string
+        required: true
+      description: 
+        title: 
+          en: Description
+          zh-CN: "项目描述"
+        type: string
+        required: true
+      boundary: 
+        title: 
+          en: Boundary
+          zh-CN: "项目网络区间"
+        type: string
+        required: true
+      limit_to_network: 
+        title: 
+          en: Limit To Network
+          zh-CN: "是否限定网络范围"
+        type: string
+        required: true
+        enum: 
+          - "0"
+          - "1"
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      result: 
+        title: 
+          en: Result
+          title: "结果"
+        type: string
+        required: true
+      workspace: 
+        title: 
+          en: Workspace
+          title: "项目信息"
+        type: object
+        required: false
+  workspacesdelete:
+    title: 
+      en: Workspaces Delete
+      zh-CN: "删除项目"
+    input:
+      id:
+        title: 
+          en: Id
+          zh-CN: "项目ID"
+        type: string
+        required: true
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      result: 
+        title: 
+          en: Result
+          title: "结果"
+        type: string
+        required: false
+  backupssee:
+    title: 
+      en: See Backups
+      zh-CN: "数据备份列表查看"
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      result: 
+        title: 
+          en: Result
+          title: "结果"
+        type: string
+        required: false
+      backups: 
+        title:
+          en: Backups
+          zh-CN: "数据备份列表信息"
+        type: "[]object"
+        required: false
+  backupscreate:
+    title: 
+      en: Backups Create
+      zh-CN: "数据备份"
+    input:
+      name: 
+        title:
+          en: Name
+          zh-CN: "备份名称"
+        type: string
+        required: true
+      description: 
+        title: 
+          en: Description
+          zh-CN: "备份描述"
+        type: string
+        required: true
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      result: 
+        title: 
+          en: Result
+          title: "结果"
+        type: string
+        required: true
+      message: 
+        title:
+          en: Message
+          zh-CN: "数据备份信息"
+        type: string
+        required: false   
+  backupsrestore:
+    title: 
+      en: Backups Restore
+      zh-CN: "数据备份恢复"
+    input:
+      backupname: 
+        title:
+          en: Backup Name
+          zh-CN: "备份名称"
+        type: string
+        required: true
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      result: 
+        title: 
+          en: Result
+          title: "结果"
+        type: string
+        required: false
+      message: 
+        title:
+          en: Message
+          zh-CN: "数据备份信息"
+        type: string
+        required: false 
+  backupsdelete:
+    title: 
+      en: Backups Delete
+      zh-CN: "数据备份删除"
+    input:
+      backupname: 
+        title:
+          en: Backup Name
+          zh-CN: "备份名称"
+        type: "[]string"
+        required: true
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      result: 
+        title: 
+          en: Result
+          title: "结果"
+        type: string
+        required: false
+  versionupgradeonline:
+    title: 
+      en: Version Upgrade Online
+      zh-CN: "版本在线升级"
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      result: 
+        title: 
+          en: Result
+          title: "结果"
+        type: string
+        required: false
+      message: 
+        title:
+          en: Message
+          zh-CN: "提示信息"
+        type: string
+        required: false 
+  versionupgradeoffline:
+    title: 
+      en: Version Upgrade Offline
+      zh-CN: "版本离线升级"
+    input:
+      updatefile: 
+        title:
+          en: Update File
+          zh-CN: "升级版本文件"
+        type: file
+        required: true
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      result: 
+        title: 
+          en: Result
+          title: "结果"
+        type: string
+        required: false
+      message: 
+        title:
+          en: Message
+          zh-CN: "提示信息"
+        type: string
+        required: false 
+  systemloginuser:
+    title: 
+      en: System Login user
+      zh-CN: "获取当前登录用户信息"
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title: 
+          en: Status
+          title: "结果"
+        type: string
+        required: false
+      loginuser: 
+        title:
+          en: Login User
+          zh-CN: "登陆用户信息"
+        type: object
+        required: false 
+  systemallusers:
+    title: 
+      en: System All users
+      zh-CN: "获取所有用户信息"
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title: 
+          en: Status
+          title: "结果"
+        type: string
+        required: false
+      allusers: 
+        title:
+          en: All Users
+          zh-CN: "所有用户信息数组"
+        type: "[]object"
+        required: false 
+  systemserverstatus:
+    title: 
+      en: System Server Status
+      zh-CN: "获取服务状态"
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title: 
+          en: Status
+          title: "结果"
+        type: string
+        required: false
+      server_status: 
+        title:
+          en: Server Status
+          zh-CN: "服务状态"
+        type: object
+        required: false 
+  workspacesreports:
+    title: 
+      en: Workspaces Reports
+      zh-CN: "项目报告列表查询"
+    input: 
+      workspaceid:
+        title: 
+          en: Workspace Id
+          zh-CN: "项目ID"
+        type: string
+        required: true
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title: 
+          en: Data
+          title: "数据"
+        type: "[]object"
+        required: false
+  workspacesreportsgenerate: 
+    title: 
+      en: Workspaces Reports Generate
+      zh-CN: "项目生成报告"
+    input:
+      workspaceid: 
+        title:
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      report:
+        title:
+          en: Reports
+          zh-CN: 报告
+        type: reportstype
+    output:
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      result: 
+        title: 
+          en: Result
+          title: "数据"
+        type: string
+        required: false
+      report_id:
+        title: 
+          en: Report Id
+          zh-CN: "报告id"
+        type: string
+        required: false
+  workspacesreportsdownload: 
+    title: 
+      en: Workspaces Reports Download
+      zh-CN: "项目报告下载"
+    input:
+      workspaceid:
+        title: 
+          en: Workspace Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      id:
+        title:
+          en: Id
+          zh-CN: "报告Id"
+        type: string
+        required: true
+      format: 
+        title: 
+          en: Format
+          zh-CN: "报告文件类型"
+        type: string
+        required: true  
+        enum:
+          - 'html'
+          - "word"
+          - "pdf"
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data:  
+        title: 
+          en: Data
+          zh-CN: "下载文件"
+        type: file
+        required: false
+  
+  workspaceshosts: 
+    title: 
+      en: Workspaces Hosts
+      zh-CN: "主机列表查询"
+    input: 
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data:  
+        title: 
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false
+  workspaceshostsdetail: 
+    title: 
+      en: Workspaces Hosts Detail
+      zh-CN: "主机详细信息查询"
+    input: 
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      id:
+        title: 
+          en: Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+    output: 
+      statuscode: 
+        title: 
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success: 
+        title: 
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      host:  
+        title: 
+          en: Host
+          zh-CN: "主机"
+        type: object
+        required: false
+      services:
+        title: 
+          en: Services
+          zh-CN: "服务数据"
+        type: "[]object"
+        required: false
+  workspaceshostsnotes: 
+    title: 
+      en: Workspace Hosts Notes
+      zh-CN: "主机注释列表查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false
+  workspaceshostsnotesdetail: 
+    title: 
+      en: Workspace Hosts Notes Detail
+      zh-CN: "主机注释详细查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      id: 
+        title: 
+          en: Id
+          ZH-CN: "注释ID"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  workspaceshostssessions: 
+    title: 
+      en: Workspace Hosts Sessions
+      zh-CN: "主机会话列表查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false
+  workspaceshostssessionsdetail: 
+    title: 
+      en: Workspace Hosts Sessions Detail
+      zh-CN: "主机会话详细查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      id: 
+        title: 
+          en: Id
+          ZH-CN: "会话ID"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  workspaceshostsservices: 
+    title: 
+      en: Workspace Hosts Services
+      zh-CN: "主机服务列表查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false
+  workspaceshostsservicesdetail: 
+    title: 
+      en: Workspace Hosts Services Detail
+      zh-CN: "主机服务详细查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      id: 
+        title: 
+          en: Id
+          ZH-CN: "服务ID"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  workspaceshostsservicesvulns: 
+    title: 
+      en: Workspace Hosts Services Vulns
+      zh-CN: "主机服务漏洞列表查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      serviceid:
+        title: 
+          en: Service Id
+          zh-CN: "服务id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false
+  workspaceshostsservicesvulnsdetail: 
+    title: 
+      en: Workspace Hosts Services Vulns Detail
+      zh-CN: "主机服务漏洞详细查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      serviceid:
+        title: 
+          en: Service Id
+          zh-CN: "服务id"
+        type: string
+        required: true
+      id: 
+        title: 
+          en: Id
+          ZH-CN: "服务ID"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  workspaceshostsserviceswebsites: 
+    title: 
+      en: Workspace Hosts Services Web Sites
+      zh-CN: "网站列表信息查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      serviceid:
+        title: 
+          en: Service Id
+          zh-CN: "服务id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false
+  workspaceshostsserviceswebsitesdetail: 
+    title: 
+      en: Workspace Hosts Services Web Sites Detail
+      zh-CN: "网站详细信息查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      serviceid:
+        title: 
+          en: Service Id
+          zh-CN: "服务id"
+        type: string
+        required: true
+      id: 
+        title: 
+          en: Id
+          ZH-CN: "网站ID"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  workspaceshostsserviceswebsiteswebform: 
+    title: 
+      en: Workspace Hosts Services Web Sites Web Forms
+      zh-CN: "网站表单列表信息查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      serviceid:
+        title: 
+          en: Service Id
+          zh-CN: "服务id"
+        type: string
+        required: true
+      websitesid:
+        title:
+          en: Web Sites Id
+          zh-CN: "网站id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false
+  workspaceshostsserviceswebsiteswebformsdetail: 
+    title: 
+      en: Workspace Hosts Services Web Sites Web Forms Detail
+      zh-CN: "网站表单详细信息查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      serviceid:
+        title: 
+          en: Service Id
+          zh-CN: "服务id"
+        type: string
+        required: true
+      websitesid:
+        title: 
+          en: Web Sites Id
+          zh-CN: "网站id"
+        type: string
+        required: true
+      id: 
+        title: 
+          en: Id
+          ZH-CN: "表单ID"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  workspaceshostsserviceswebsiteswebpages: 
+    title: 
+      en: Workspace Hosts Services Web Sites Web Pages
+      zh-CN: "网站网页列表查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      serviceid:
+        title: 
+          en: Service Id
+          zh-CN: "服务id"
+        type: string
+        required: true
+      websitesid:
+        title:
+          en: Web Sites Id
+          zh-CN: "网站id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false
+  workspaceshostsserviceswebsiteswebpagesdetail: 
+    title: 
+      en: Workspace Hosts Services Web Sites Web Pages Detail
+      zh-CN: "网站表单详细信息查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      serviceid:
+        title: 
+          en: Service Id
+          zh-CN: "服务id"
+        type: string
+        required: true
+      websitesid:
+        title: 
+          en: Web Sites Id
+          zh-CN: "网站id"
+        type: string
+        required: true
+      id: 
+        title: 
+          en: Id
+          ZH-CN: "网页ID"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  workspaceshostsserviceswebsiteswebvulns: 
+    title: 
+      en: Workspace Hosts Services Web Sites Web Vulns
+      zh-CN: "网站漏洞列表信息查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      serviceid:
+        title: 
+          en: Service Id
+          zh-CN: "服务id"
+        type: string
+        required: true
+      websitesid:
+        title:
+          en: Web Sites Id
+          zh-CN: "网站id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false
+  workspaceshostsserviceswebsiteswebvulnsdetail: 
+    title: 
+      en: Workspace Hosts Services Web Sites Web Vulns Detail
+      zh-CN: "网站漏洞详细信息查询"
+    input:
+      workspacesid:
+        title: 
+          en: Workspaces Id
+          zh-CN: "项目id"
+        type: string
+        required: true
+      hostid:
+        title: 
+          en: Host Id
+          zh-CN: "主机id"
+        type: string
+        required: true
+      serviceid:
+        title: 
+          en: Service Id
+          zh-CN: "服务id"
+        type: string
+        required: true
+      websitesid:
+        title: 
+          en: Web Sites Id
+          zh-CN: "网站id"
+        type: string
+        required: true
+      id: 
+        title: 
+          en: Id
+          ZH-CN: "网站漏洞ID"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+
+  socialengineeringtargetlists:
+    title:
+      en: Social Engineering Target Lists
+      zh-CN: "社工项目目标组列表查询"
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false
+  socialengineeringtargetlistsdetail:
+    title:
+      en: Social Engineering Target Detail
+      zh-CN: "社工项目目标组详细查询"
+    input:
+      id:
+        title:
+          en: ID
+          zh-CN: "目标组id"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  socialengineeringhumantargets:
+    title:
+      en: Social Engineering Human Targets
+      zh-CN: "社工项目目标人员列表查询"
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false
+  socialengineeringhumantargetsdetail:
+    title:
+      en: Social Engineering Human Targets Detail
+      zh-CN: "社工项目目标人员详细查询"
+    input:
+      id:
+        title:
+          en: ID
+          zh-CN: "目标人员id"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  workspacescampaigns:
+    title:
+      en: Workspaces Campaigns
+      zh-CN: "项目社工活动列表查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false    
+  workspacescampaignsdetail:
+    title:
+      en: Workspaces Campaigns
+      zh-CN: "项目社工活动列表查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      id:
+        title: 
+          en: ID
+          zh-CN: "社工活动ID"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false    
+  workspacescampaignswebpages:
+    title:
+      en: Workspaces Campaigns Web Pages
+      zh-CN: "社工活动网页列表查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      campaignid:
+        title: 
+          en: Campaign ID
+          zh-CN: "社工活动ID"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false    
+  workspacescampaignswebpagesdetail:
+    title:
+      en: Workspaces Campaigns Web Pages Detail
+      zh-CN: "社工活动网页详细查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      campaignid:
+        title: 
+          en: Campaign ID
+          zh-CN: "社工活动ID"
+        type: string
+        required: true
+      id:
+        title: 
+          en: ID
+          zh-CN: "网页ID"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false 
+  workspacescampaignsemails:
+    title:
+      en: Workspaces Campaigns Emails
+      zh-CN: "社工活动邮件列表查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      campaignid:
+        title: 
+          en: Campaign ID
+          zh-CN: "社工活动ID"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false    
+  workspacescampaignsemailsdetail:
+    title:
+      en: Workspaces Campaigns Emails Detail
+      zh-CN: "社工活动邮件详细查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      campaignid:
+        title: 
+          en: Campaign ID
+          zh-CN: "活动ID"
+        type: string
+        required: true
+      id:
+        title: 
+          en: ID
+          zh-CN: "邮件ID"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false 
+  workspacescampaignsemailopenings:
+    title:
+      en: Workspaces Campaigns Email Openings
+      zh-CN: "邮件点开记录列表查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      campaignid:
+        title: 
+          en: Campaign ID
+          zh-CN: "社工活动ID"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false    
+  workspacescampaignsemailopeningsdetail:
+    title:
+      en: Workspaces Campaigns Email Openings Detail
+      zh-CN: "邮件点开记录详细查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      campaignid:
+        title: 
+          en: Campaign ID
+          zh-CN: "活动ID"
+        type: string
+        required: true
+      id:
+        title: 
+          en: ID
+          zh-CN: "邮件点开记录ID"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false 
+  workspacescampaignsphishingresults:
+    title:
+      en: Workspaces Campaigns Phishing Results
+      zh-CN: "钓鱼结果列表查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      campaignid:
+        title: 
+          en: Campaign ID
+          zh-CN: "活动ID"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false    
+  workspacescampaignsphishingresultsdetail:
+    title:
+      en: Workspaces Campaigns Phishing Results Detail
+      zh-CN: "钓鱼结果详细查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      campaignid:
+        title: 
+          en: Campaign ID
+          zh-CN: "活动ID"
+        type: string
+        required: true
+      id:
+        title: 
+          en: ID
+          zh-CN: "钓鱼结果记录ID"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false 
+  workspacescampaignsvisits:
+    title:
+      en: Workspaces Campaigns Visits
+      zh-CN: "钓鱼页面访问记录列表查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      campaignid:
+        title: 
+          en: Campaign ID
+          zh-CN: "活动ID"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: "[]object"
+        required: false    
+  workspacescampaignsvisitsdetail:
+    title:
+      en: Workspaces Campaigns Visits Detail
+      zh-CN: "钓鱼页面访问记录详细查询"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      campaignid:
+        title: 
+          en: Campaign ID
+          zh-CN: "活动ID"
+        type: string
+        required: true
+      id:
+        title: 
+          en: ID
+          zh-CN: "访问记录ID"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false 
+  validatevulnsvalidate:
+    title:
+      en: Validate Vulns Validate
+      zh-CN: "根据报表内容验证漏洞"
+    input:
+      report:
+        title:
+          en: Report
+          zh-CN: "倒入报文文件"
+        type: file
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title:
+          en: Status
+          zh-CN: "任务启动结果"
+        type: string
+        required: false
+        enum:
+          - "success"
+          - "fail" 
+      ids:
+        title: 
+          en: Ids
+          zh-CN: "[<项目id>， <任务id>]"
+        type: object
+        required: false
+      error: 
+        title:
+          en: Error
+          zh-CN: "失败错误信息"
+        type: string
+        required: false
+  validatevulnsresults:
+    title:
+      en: Validate Vulns Results
+      zh-CN: "获取漏洞验证结果"
+    input:
+      workspaceid:
+        title:
+          en: Worksapce ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      taskid:
+        title:
+          en: Task id
+          zh-CN: "任务id"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title:
+          en: Status
+          zh-CN: "漏洞验证结果状态"
+        type: string
+        required: false
+        enum: 
+          - "running"
+          - "completed"
+          - "failed"
+      result:
+        title:
+          en: Result
+          zh-CN: "漏洞验证结果数组"
+        type: "[]object" 
+        required: false
+      error:
+        title:
+          en: Error
+          zh-CN: "失败原因"
+        type: string
+        required: false      
+  loots:
+    title:
+      en: Loots
+      zh-CN: "查看所有收集的信息"
+    input:
+      workspaceid:
+        title:
+          en: Worksapce ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      hostid:
+        title:
+          en: Host id
+          zh-CN: "主机id"
+        type: string
+        required: false
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title:
+          en: Status
+          zh-CN: "结果"
+        type: string
+        required: false
+      loots:
+        title:
+          en: Loots
+          zh-CN: "收集的信息"
+        type: "[]object"
+        required: false
+  lootsdetail:
+    title:
+      en: Loots Detail
+      zh-CN: "获取信息收集的文件位置和内容"
+    input:
+      lootid:
+        title:
+          en: Loot ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title:
+          en: Status
+          zh-CN: "结果"
+        type: string
+        required: false
+        enum: 
+          - "error"
+          - "success"
+      path:
+        title:
+          en: Path
+          zh-CN: "文件路径"
+        type: string
+        required: false
+      content:
+        title:
+          en: Content
+          zh-CN: "文件内容"
+        type: string
+        required: false
+      contenttype:
+        title:
+          en: Content Type
+          zh-CN: "文件类型"
+        type: string
+        required: false
+      message:
+        title: 
+          en: Message
+          zh-CN: "返回信息"
+        type: string
+        required: false
+  creds: 
+    title:
+      en: Creds
+      zh-CN: "获取项目的所有凭证"
+    input:
+      workspaceid: 
+        title: 
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title:
+          en: Status 
+          zh-CN: "结果"
+        type: string
+        required: false
+      creds:
+        title:
+          en: Creds
+          zh-CN: "凭证列表"
+        type: "[]object"
+        required: false
+  payloaddetail:
+    title:
+      en: Payload Detail
+      zh-CN: "获取载荷的文件位置和内容"
+    input:
+      payloadid:
+        title:
+          en: Payload ID
+          zh-CN: "载荷id"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title:
+          en: Status
+          zh-CN: "结果"
+        type: string
+        required: false
+        enum: 
+          - "error"
+          - "success"
+      path:
+        title:
+          en: Path
+          zh-CN: "文件路径"
+        type: string
+        required: false
+      content:
+        title:
+          en: Content
+          zh-CN: "文件内容"
+        type: string
+        required: false
+      message:
+        title: 
+          en: Message
+          zh-CN: "返回信息"
+        type: string
+        required: false    
+  sslcertdetail:
+    title:
+      en: Sslcert Detail
+      zh-CN: "获取证书的文件位置和内容"
+    input:
+      sslcertid:
+        title:
+          en: Ssl Cert ID
+          zh-CN: "证书id"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title:
+          en: Status
+          zh-CN: "结果"
+        type: string
+        required: false
+        enum: 
+          - "error"
+          - "success"
+      path:
+        title:
+          en: Path
+          zh-CN: "文件路径"
+        type: string
+        required: false
+      content:
+        title:
+          en: Content
+          zh-CN: "文件内容"
+        type: string
+        required: false
+      message:
+        title: 
+          en: Message
+          zh-CN: "返回信息"
+        type: string
+        required: false    
+  syncconfigsync:
+    title:  
+      en: Sync Config Sync
+      zh-CN: "同步数据库配置"
+    input:
+      consoleip: 
+        title:
+          en: Console Ip
+          zh-CN: "请求IP"
+        type: string
+        required: true
+      dbuser: 
+        title:
+          en: DB User
+          zh-CN: "数据库用户名"
+        type: string
+        required: true
+      dbpass:
+        title:
+          en: DB Password
+          zh-CN: "数据库密码"
+        type: password
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title:
+          en: Status
+          zh-CN: "同步数据库结果"
+        type: string
+        required: false
+        enum: 
+          - "error"
+          - "success"
+      error:
+        title:
+          en: Error
+          zh-CN: "失败原因"
+        type: string
+        required: false
+  syncconfigstatus:
+    title:  
+      en: Sync Config Status
+      zh-CN: "查询数据库状态"
+    input:
+      randomstring: 
+        title:
+          en: Random String
+          zh-CN: "随机字符串"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title:
+          en: Status
+          zh-CN: "同步数据库结果"
+        type: string
+        required: false
+        enum: 
+          - "error"
+          - "success"
+      error:
+        title:
+          en: Error
+          zh-CN: "失败原因"
+        type: string
+        required: false
+      randomstring: 
+        title:
+          en: Random String
+          zh-CN: "随机字符串"
+        type: string
+        required: false
+
+  tasklogcurrentlog:
+    title:
+      en: Task Log Current Log
+      zh-CN: "获取任务日志某一行开始获取指定行数的内容"
+    input:
+      id:
+        title: 
+          en: ID
+          zh-CN: "任务id"
+        type: string
+        required: true
+      lineno: 
+        title: 
+          en: line no
+          zh-CN: "第几行"
+        type: string
+        required: true
+      linenum: 
+        title:
+          en: Line Num
+          zh-CN: "行数"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title:
+          en: Status
+          zh-CN: "结果"
+        type: string
+        required: false
+        enum: 
+          - "error"
+          - "success"
+      content:
+        title:
+          en: Content
+          zh-CN: "日志内容"
+        type: string
+        required: false
+      startlineno: 
+        title:
+          en: Status Line No
+          zh-CN: "开始行"
+        type: string
+        required: false
+      endlineno: 
+        title:
+          en: End Line No
+          zh-CN: "结束行"
+        type: string
+        required: false
+      readstate:
+        title:
+          en: Read State
+          zh-CN: "读取状态"
+        type: string
+        required: false
+        enum:
+          - "finished"
+          - "continued"
+      error:
+        title:
+          en: Error
+          zh-CN: "失败原因"
+        type: string
+        required: false
+  tasklogtotallog:
+    title:
+      en: Task Log Total Log
+      zh-CN: "获取任务日志全部内容"
+    input:
+      id:
+        title: 
+          en: ID
+          zh-CN: "任务id"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      status: 
+        title:
+          en: Status
+          zh-CN: "结果"
+        type: string
+        required: false
+        enum: 
+          - "error"
+          - "success"
+      path:
+        title:
+          en: Path
+          zh-CN: "日志路径"
+        type: string
+        required: false
+      state: 
+        title:
+          en: State
+          zh-CN: "任务状态"
+        type: string
+        required: false
+      content: 
+        title:
+          en: Content
+          zh-CN: "日志内容"
+        type: string
+        required: false
+      error:
+        title:
+          en: Error
+          zh-CN: "失败原因"
+        type: string
+        required: false
+  sessionsshow: 
+    title:
+      en: Sessions Show
+      zh-CN: "获取单个会话的信息、事件、主机、匹配模块"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  sessionssession: 
+    title:
+      en: Sessions Session
+      zh-CN: "获取单个会话的信息"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  sessionshistory: 
+    title:
+      en: Sessions History
+      zh-CN: "获取单个会话的信息、事件"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  sessionsdestroy: 
+    title:
+      en: Sessions Destroy
+      zh-CN: "终止会话"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success: 
+        title:
+          en: Success
+          zh-CN: "是否成功"
+        type: string
+        required: false
+      errors:
+        title:
+          en: Errors
+          zh-CN: "错误信息"
+        type: string
+        required: false
+  tasksnewtunnel: 
+    title:
+      en: Task New Tunnel
+      zh-CN: "通过会话创建VPN跳板"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false
+  tasksstarttunnel: 
+    title:
+      en: Task Start Tunnel
+      zh-CN: "通过会话启动VPN跳板"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      tunnelsession: 
+        title: 
+          en: Tunnel Session
+          zh-CN: "创建vpn跳板返回的tunnel_session值"
+        type: string
+        required: true
+      tunnelinterface: 
+        title: 
+          en: Tunnel Interface
+          zh-CN: "创建vpn跳板返回的tunnel_interface里面选择一个id，选择远程隧道接口"
+        type: string
+        required: true
+      tunneldhcp: 
+        title:
+          en: Tunnel Dhcp
+          zh-CN: "是否通过DHCP获得一个IP地址"
+        type: string
+        required: true
+      tunneladdress:
+        title:
+          en: Tunnel Address
+          zh-CN: "本地隧道接口IP地址"
+        type: string
+        required: true
+      tunnelnetmask:
+        title:
+          en: Tunnel Netmask
+          zh-CN: "本地隧道接口掩码"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success: 
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace Id
+          zh-CN: "项目id"
+        type: string
+        required: false
+      taskid: 
+        title:
+          en: Task Id
+          zh-CN: "任务id"
+        type: string
+        required: false
+  sessionsvnc: 
+    title:
+      en: Sessions Vnc
+      zh-CN: "通过会话创建虚拟桌面"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false 
+  sessionsfiles: 
+    title:
+      en: Sessions Files
+      zh-CN: "通过会话获取某个目录下的文件列表"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: false
+      path:
+        title:
+          en: Path
+          zh-CN: "目录路径"
+        type: string
+        description: 
+          en: "If empty, the folder and file in the current directory of PWD will be returned"
+          zh-CN: "如果为空，则返回pwd当前目录下的文件夹和文件"
+        required: false
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false 
+  sessionsupload: 
+    title:
+      en: SessionsDOCUMENY Upload
+      zh-CN: "通过会话上传文件到某个目录下"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: true
+      path:
+        title:
+          en: Path
+          zh-CN: "目录路径"
+        type: string
+        required: true
+      file:
+        title:
+          en: File
+          zh-CN: 上传文件
+        type: file
+        required: true
+      Name:
+        title:
+          en: Name
+          zh-CN: "上传文件名"
+        type: string
+        required: true
+      execute:
+        title:
+          en: Execute
+          zh-CN: "是否执行上传文件"
+        type: boolean
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false 
+  sessionsdownload: 
+    title:
+      en: Sessions Download
+      zh-CN: "通过会话下载文件"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: true
+      path:
+        title:
+          en: Path
+          zh-CN: "目录路径"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false 
+  sessionsdelete: 
+    title:
+      en: Sessions Delete
+      zh-CN: "通过会话删除目录或文件"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: true
+      path:
+        title:
+          en: Path
+          zh-CN: "路径"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      data: 
+        title:
+          en: Data
+          zh-CN: "返回数据"
+        type: object
+        required: false 
+  sessionssearch: 
+    title:
+      en: Sessions Search
+      zh-CN: "通过会话搜索目录或文件"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: true
+      query:
+        title:
+          en: Query
+          zh-CN: "查询信息"
+        type: string
+        required: true
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success: 
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false 
+      workspaceid: 
+        title:
+          en: Workspace Id
+          zh-CN: "项目id"
+        type: string
+        required: false
+      sessionid: 
+        title:
+          en: Session Id
+          zh-CN: "会话id"
+        type: string
+        required: false
+      entries: 
+        title:
+          en: Entries
+          zh-CN: "查询得到的结果"
+        type: "[]object"
+        required: false
+  sessionsshell: 
+    title:
+      en: Sessions Search
+      zh-CN: "通过会话搜索目录或文件"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      sessionid: 
+        title: 
+          en: Session ID
+          zh-CN: "会话id"
+        type: string
+        required: true
+      special:
+        title:
+          en: Special
+          zh-CN: "如果设置为kill，则关闭会话"
+        type: string
+        required: false
+      cmd:
+        title:
+          en: Cmd
+          zh-CN: "执行命令"
+        type: string
+        required: false
+      read: 
+        title:
+          en: Read
+          zh-CN: "是否读取执行命令后返回的数据，不读取则不提交该参数 "
+        type: boolean
+        required: false
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success: 
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false 
+      event: 
+        title:
+          en: Event
+          zh-CN: "事件"
+        type: string
+        required: false
+
+  tasksstartscan:
+    title:
+      en: Tasks Start Scan
+      zh-CN: "扫描目标"
+    input:
+      workspaceid:
+        title: 
+          en: Workspace ID
+          zh-CN: "任务id"
+        type: string
+        required: true
+      addressstring: 
+        title:
+          en: Address String
+          zh-CN: "目标地址"
+        type: string
+        required: true
+      blackstring: 
+        title:
+          en: Black String
+          zh-CN: "排除地址"
+        type: string
+        required: false
+      initialnmap:
+        title:
+          en: Initial Nmap
+          zh-CN: "执行初始化端口扫描"
+        type: boolean
+        required: false
+      customnmap:
+        title:
+          en: Custom Nmap
+          zh-CN: "自定义 Nmap 参数"
+        type: string
+        required: false
+      portsextra:
+        title:
+          en: Ports Extra
+          zh-CN: "添加tcp端口"
+        type: boolean
+        required: false
+      portsblacklist:
+        title:
+          en: Ports Blacklist
+          zh-CN: "排除tcp端口"
+        typt: string
+        required: false
+      portscustom: 
+        title:
+          en: Posts Custom 
+          zh-CN: "自定义tcp端口范围ie"
+        type: string
+        required: false
+      portscansourceport: 
+        title:
+          en: Postscan Source Post 
+          zh-CN: "自定义tcp端口源端口"
+        type: string
+        required: false
+      fastdetect: 
+        title:
+          en: Fast Detect 
+          zh-CN: "快速扫描,仅适用tcp端口"
+        type: boolean
+        required: false
+      porttscanspeed: 
+        title:
+          en: Postscan Speed 
+          zh-CN: "端口扫描设置"
+        type: integer
+        required: false
+        enum: 
+          - 0
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+      portscantimeout: 
+        title:
+          en: Postscan Timeout 
+          zh-CN: "主机扫描时限"
+        type: string
+        required: false
+      udpprobes: 
+        title:
+          en: Udp Prodes 
+          zh-CN: "udp服务探测"
+        type: boolean
+        required: false
+      snmpscan: 
+        title:
+          en: Snmp Scan 
+          zh-CN: "SNMP共同体名扫描"
+        type: boolean
+        required: false    
+      h323scan: 
+        title:
+          en: H323 Scan 
+          zh-CN: "h323视频节点扫描"
+        type: boolean
+        required: false
+      fingerusers: 
+        title:
+          en: Finger Users 
+          zh-CN: "Finger枚举用户"
+        type: boolean
+        required: false
+      identifyservices: 
+        title:
+          en: identify Services 
+          zh-CN: "识别未知服务"
+        type: boolean
+        required: false
+      singlescan: 
+        title:
+          en: Single Scan 
+          zh-CN: "单一扫描"
+        type: boolean
+        required: false
+      dryrun: 
+        title:
+          en: Dry Run 
+          zh-CN: "只显示扫描信息"
+        type: boolean
+        required: false
+      initialwebscan: 
+        title:
+          en: Initial Webscan 
+          zh-CN: "运行web扫描"
+        type: boolean
+        required: false
+      smbusernmae: 
+        title:
+          en: Smb Username 
+          zh-CN: "SMB用户"
+        type: string
+        required: false
+      smbpassword: 
+        title:
+          en: Smp Password 
+          zh-CN: "SMP 密码"
+        type: password
+        required: false
+      smbdomain: 
+        title:
+          en: Smp Doamin 
+          zh-CN: "smp域"
+        type:  string
+        required: false
+      webscanmaxpages: 
+        title:
+          en: Webscan Max Pages 
+          zh-CN: "最大爬行页数"
+        type: String
+        required: false
+      webscanmaxminute: 
+        title:
+          en: Webscan Max Minutea 
+          zh-CN: "时间限制"
+        type: String
+        required: false 
+      webscanmaxthreads: 
+        title:
+          en: Webscan Max Pages 
+          zh-CN: "并发数"
+        type: string
+        required: false
+      autotagos:
+        title:
+          en: AutoTag id 
+          zh-CN: "按擦作系统制动自动"
+        type: string
+        required: false
+      httpusername:
+        title:
+          en: HTTP Username
+          ZH-CN: "HTTP用户名"
+        type: string
+        required: false
+      httppassword:
+        title:
+          en: HTTP Password
+          ZH-CN: "HTTP密码"
+        type: password
+        required: false
+      httpdomian:
+        title:
+          en: HTTP Domain
+          ZH-CN: "HTTP域"
+        type: string
+        required: false
+      cookie: 
+        title:
+          en: Cookie
+          zh-CN: "http Cookie"
+        type: string
+        required: false
+      useragent: 
+        title:
+          en: User Agent
+          zh-CN: "用户代理"
+        type: string
+        required: false
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success:
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      taskid:
+        title:
+          en: Task ID
+          zh-CN: "任务id"
+        type: string
+        required: false
+      errors: 
+        title:
+          en: Errors
+          zh-CN: "错误信息"
+        type: string
+        required: false
+  tasksstartexploit:
+    title:
+      en: Tasks Start Exploit
+      zh-CN: "漏洞利用"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      whiteliststring:
+        title:
+          en: Whitelist String
+          zh-CN: "自动渗透配置"
+        type: string
+        required: true
+      minimumrank:
+        title:
+          en: Minimum Rank
+          zh-CN: "自动化测试设置"
+        type: string
+        required: true
+      blackliststring:
+        title:
+          en: Blacklist String
+          zh-CN: "排除地址"
+        type: string
+        required: false
+        enum:
+          - "low"
+          - "average"
+          - "normal"
+          - "good"
+          - "great"
+          - "excellent"
+      payloadtype:
+        title:
+          en: Payload Type
+          zh-CN: "荷载类型"
+        type: string
+        required: false
+        enum: 
+          - "Meterpreter"
+          - "Meterpreter 64-bit"
+          - "Command shell"
+          - "Powershell"
+      connection:
+        title:
+          en: Connection
+          zh-CN: "连接类型"
+        type: string
+        required: false
+        enum: 
+          - "Auto"
+          - "Reverse"
+          - "Bind"
+      payloadports:
+        title:
+          en: Payload Ports
+          zh-CN: "监听端口(1024-65538)"
+        type: string
+        required: false
+      payloadhost:
+        title: 
+          en: Payload Host
+          zh-CN: "监听主机"
+        type: string
+        required: false
+      macroname:
+        title:
+          en: Macro Name
+          zh-CN: "启动后渗透模块"
+        type: string
+        required: false
+      dynamicstager:
+        title:
+          en: Dynamic Stager
+          zh-CN: "对EXE载荷启用动态编码(免杀)"
+        type: string
+        required: false
+      stageencodeing:
+        titlt:
+          en: Stager Encodeing
+          zh-CN: "启用动态编码"
+        type: string
+        required: false
+      whitelistports:
+        titlt:
+          en: Whitelist Ports
+          zh-CN: "包含端口"
+        type: string
+        required: false
+      blacklistports:
+        titlt:
+          en: Blacklist Ports
+          zh-CN: "排除端口"
+        type: string
+        required: false
+      filterbyos:
+        titlt:
+          en: Filter By Os
+          zh-CN: "跳过与操作系统不匹配的利用模块"
+        type: boolean
+        required: false
+      filterbyport:
+        title:
+          en: Filter By Port
+          zh-CN: "基于开放端口匹配利用模块"
+        type: boolean
+        required: false
+      speed:
+        title:
+          en: Speed
+          zh-CN: "并发"
+        type: string
+        required: false
+      timeout: 
+        title:
+          en: Timeout
+          zh-CN: "超时"
+        type: string
+        required: false
+      evasionleveltcp:
+        title:
+          en: Evasion Level Tcp
+          zh-CN: "传输层伪装"
+        type: string
+        required: false
+        enum: 
+          - "0"
+          - "1"
+          - "2"
+          - "3"
+      evasionlevelapp:
+        title:
+          en: Evasion Level App
+          zh-CN: "应用层伪装"
+        type: string
+        required: false
+        enum:  
+          - "0"
+          - "1"
+          - "2"
+          - "3"
+      limitsessions:
+        title:
+          en: Limit Sessions
+          zh-CN: "每个目标只建立一个会话"
+        type: boolean
+        required: false
+      onlymatch: 
+        title:
+          en: Only Match
+          zh-CN: "预检：只显示利用模块，不运行"
+        type: boolean
+        required: false
+      httpusername:
+        title:
+          en: Http Username
+          zh-CN: "http用户名"
+        type: string
+        required: false
+      httppassword: 
+        title:
+          en: Http Password
+          zh-CN: "http密码"
+        type: password
+        required: false
+      httpdomain:   
+        title:
+          en: Http Domain
+          zh-CN: "http域"
+        type: string
+        required: false
+      cookie:
+        title:
+          en: Cookie
+          zh-CN: "http Cookie"
+        type: string
+        required: false
+      useragent:
+        title:
+          en: User Agent
+          zh-CN: "用户代理"
+        type: string
+        required: false
+    output: 
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success:
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      taskid:
+        title:
+          en: Task ID
+          zh-CN: "任务id"
+        type: string
+        required: false
+      errors: 
+        title:
+          en: Errors
+          zh-CN: "错误信息"
+        type: string
+        required: false
+  tasksstartimport:
+    title:
+      en: Tasks Start Import
+      zh-CN: "导入"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      file:
+        title:
+          en: File 
+          zh-CN: "文件"
+        type: file
+        required: true
+      blackliststring: 
+        title:
+          en: Blacklist String
+          zh-CN: "排除地址"
+        type: string
+        required: false
+      tags: 
+        title:
+          en: Tags
+          zh-CN: "添加标签"
+        type: string
+        required: false
+      autotagos: 
+        title: 
+          en: Autotag Os
+          zh-CN: "根据系统自动标记"
+        type: boolean
+        required: false
+      preservehosts: 
+        title:
+          en: Preserve Hosts 
+          zh-CN: "禁止修改已存在的主机"
+        type: boolean
+        required: false
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success:
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      taskid:
+        title:
+          en: Task ID
+          zh-CN: "任务id"
+        type: string
+        required: false
+      errors: 
+        title:
+          en: Errors
+          zh-CN: "错误信息"
+        type: string
+        required: false
+  # tasksstartbruteforce:
+  #   title:
+  #     en: Tasks Start Bruteforce
+  #     zh-CN: "暴力破解"
+  #   input:
+  #     workspaceid:
+  #       title:
+  #         en: Workspace ID
+  #         zh-CN: "项目id"
+  #       type: string
+  #       required: true
+  #     overalltimeout:
+  #       title:
+  #         en: Overall Timeout
+  #         zh-CN: "整体超时总秒数"
+  #       type: string
+  #       required: false
+  #     quickbruteforce:
+  #       title:
+  #         en: Quick Bruteforce
+  #         zh-CN: "破解对象"
+  #       type: quickbruteforcetype
+  tasksstartmodulerun:
+    title:
+      en: Tasks Start Moduler Run
+      zh-CN: "单个模块运行"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      path: 
+        title:
+          en: Path
+          zh-CN: "模块路径"
+        type: string
+        required: true
+      whiteliststring: 
+        title:
+          en: Whitelist String
+          zh-CN: "目标地址"
+        type: string
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success:
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      taskid:
+        title:
+          en: Task ID
+          zh-CN: "任务id"
+        type: string
+        required: false
+      errors: 
+        title:
+          en: Errors
+          zh-CN: "错误信息"
+        type: string
+        required: false
+  tasksstartcleanup:
+    title:
+      en: TaskS Start Cleanup
+      zh-CN: "清理会话"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID 
+          zh-CN: "项目id"
+        type: string
+        required: true
+      cleanupsessions:
+        title:
+          en: Cleanup Sessions
+          zh-CN: "需要要清理的会话"
+        type: "[]string"
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success:
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      taskid:
+        title:
+          en: Task ID
+          zh-CN: "任务id"
+        type: string
+        required: false
+      errors: 
+        title:
+          en: Errors
+          zh-CN: "错误信息"
+        type: string
+        required: false
+  tasksstartcollectevidence:
+    title:
+      en: Tasks Start Collect Evidence
+      zh-CN: "需要收集的证据"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      collectsessions:
+        title:
+          en: Collect Sessions
+          zh-CN: "在线会话"
+        type: "[]string"
+        required: false
+      collectsysinfo:
+        title:
+          en: Collect System
+          zh-CN: "系统信息"
+        type: boolean
+        required: false
+      collectpasswd:
+        title:
+          en: Collect Password
+          zh-CN: "系统密码"
+        type: boolean
+        required: false
+      collectssh:
+        title:
+          en: Collect SSH
+          zh-CN: "SSH密钥"
+        type: boolean
+        required: false
+      collectscreenshots:
+        title:
+          en: Collect Screenshots
+          zh-CN: "截屏"
+        type: boolean
+        required: false
+      collectapps:
+        title:
+          en: Collect Apps
+          zh-CN: "已安装的应用"
+        type: boolean
+        required: false
+      collectdrivers:
+        title:
+          en: Collect Drivers
+          zh-CN: "驱动"
+        type: boolean
+        required: false
+      collectusers:
+        title:
+          en: Collect Users
+          zh-CN: "已登录的用户"
+        type: boolean
+        required: false
+      collectdomain:
+        title:
+          en: Collect Domain
+          zh-CN: "主域"
+        type: boolean
+        required: false
+      collectfiles:
+        title:
+          en: Collect Files
+          zh-CN: "收集其他文件"
+        type: boolean
+        description: 
+          en: "If the value is true, collect must be configured_ files_ pattern、collect_ files_ Count and collect_ files_ The size parameter corresponds to the value, and collect_ files_ Pattern cannot be empty,collect_files_count>=1, collect_files_size>=0.1"
+          zh-CN: "如果值为true，必须配置collect_files_pattern、collect_files_count和collect_files_size参数对应值，且collect_files_pattern不能为空,collect_files_count>=1, collect_files_size>=0.1"
+        required: false
+      collectfilespattern:
+        title:
+          en: Collect Files Pattern
+          zh-CN: "文件名模式"
+        type: string
+        required: false
+      collectfilescount:
+        title:
+          en: Collect Files Count
+          zh-CN: "最大文件数量"
+        type: integer
+        required: false
+      collectfilesize:
+        title: 
+          en: Collect Files Size
+          zh-CN: "最大文件大小"
+        type: float
+        required: false
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success:
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      taskid:
+        title:
+          en: Task ID
+          zh-CN: "任务id"
+        type: string
+        required: false
+      errors: 
+        title:
+          en: Errors
+          zh-CN: "错误信息"
+        type: string
+        required: false
+  tasksstartbruteforcereuse:
+    title:
+      en: Tasks Start Bruteforce Reuse
+      zh-CN: "凭证重用"
+    input:
+      workspaceid:
+        title: 
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      coreids:
+        title:  
+          en: Core IDs
+          zh-CN: "凭证ids"
+        type: "[]string"
+        required: true
+      serviceids:
+        title: 
+          en: Service IDs
+          zh-CN: "目标服务ids"
+        type: "[]string"
+        required: true
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success:
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      taskid:
+        title:
+          en: Task ID
+          zh-CN: "任务id"
+        type: string
+        required: false
+      errors: 
+        title:
+          en: Errors
+          zh-CN: "错误信息"
+        type: string
+        required: false
+  taskswebdata:
+    title:
+      en: Tasks Web Data
+      zh-CN: "web数据"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      operation:
+        title:
+          en: Operation
+          zh-CN: "操作"
+        type: string
+        required: true
+        enum: 
+          - "webscan"
+          - "webaudit"
+          - "websploit"
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success:
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      data:
+        title:
+          en: Data 
+          zh-CN: "Web数据"
+        type: object
+        required: false
+  tasksstartwebscan:
+    title:
+      en: Tasks Start Web Scan
+      zh-CN: "web扫描"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      urls: 
+        title:
+          en: URLS
+          zh-CN: "目标urls"
+        type: string
+        required: true
+      knowntargets:
+        title:
+          en: Known targets
+          zh-CN: "已知的目标"
+        type: string
+        description:
+          en: "JSON string, //post /rest_api/v3/tasks/web_ data is returned as the value of this parameter"
+          zh-CN: "JSON字符串, //POST /rest_api/v3/tasks/web_data, 返回data数据作为这个参数值"
+        required: false
+      maxpages: 
+        title:
+          en: Max Pages
+          zh-CN: "最大爬去行数"
+        type: integer
+        required: false
+      maxminutes: 
+        title:
+          en: Max Minutes
+          zh-CN: "爬虫时间限制(min/url)"
+        type: integer
+        required: false
+      maxthreads: 
+        title:
+          en: Max Threads
+          zh-CN: "爬虫并发数"
+        type: integer
+        required: false
+      unauthorizedaccessforbiddenphrases: 
+        title:
+          en: Unauthorized Access Forbidden Phrases
+          zh-CN: "关键字排除"
+        type: string
+        required: false
+      sslreuired:
+        title:
+          en: Ssl Required
+          zh-CN: "未启用ssl报告漏洞"
+        type: boolean
+        required: false
+      reportweak: 
+        title: 
+          en: Report Weak
+          zh-CN: "允许ssl弱密钥报告漏洞"
+        type: boolean
+        required: false
+      excludepathpatterns:
+        title:
+          en: Exclude Path Pattern
+          zh-CN: "排除路径模式"
+        type: string
+        required: false
+      httpusername:
+        title:
+          en: Http Username
+          zh-CN: "http用户名"
+        type: string
+        required: false
+      httppassword: 
+        title:
+          en: Http Password
+          zh-CN: "http密码"
+        type: password
+        required: false
+      httpdomain:   
+        title:
+          en: Http Domain
+          zh-CN: "http域"
+        type: string
+        required: false
+      cookie:
+        title:
+          en: Cookie
+          zh-CN: "http Cookie"
+        type: string
+        required: false
+      useragent:
+        title:
+          en: User Agent
+          zh-CN: "用户代理"
+        type: string
+        required: false
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success:
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      taskid:
+        title:
+          en: Task ID
+          zh-CN: "任务id"
+        type: string
+        required: false
+      errors: 
+        title:
+          en: Errors
+          zh-CN: "错误信息"
+        type: string
+        required: false
+  tasksstartwebaudit:
+    title:
+      en: Tasks Start Web Audit
+      zh-CN: "web审计"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      knowntargets:
+        title:
+          en: Known targets
+          zh-CN: "已知的目标"
+        type: string
+        description:
+          en: "JSON string, //post /rest_api/v3/tasks/web_ data is returned as the value of this parameter"
+          zh-CN: "JSON字符串, //POST /rest_api/v3/tasks/web_data, 返回data数据作为这个参数值"
+        required: false
+      maxminutes: 
+        title:
+          en: Max Minutes
+          zh-CN: "爬虫时间限制(min/url)"
+        type: integer
+        required: false
+      maxthreads: 
+        title:
+          en: Max Threads
+          zh-CN: "爬虫并发数"
+        type: integer
+        required: false
+      httpusername:
+        title:
+          en: Http Username
+          zh-CN: "http用户名"
+        type: string
+        required: false
+      httppassword: 
+        title:
+          en: Http Password
+          zh-CN: "http密码"
+        type: password
+        required: false
+      httpdomain:   
+        title:
+          en: Http Domain
+          zh-CN: "http域"
+        type: string
+        required: false
+      cookie:
+        title:
+          en: Cookie
+          zh-CN: "http Cookie"
+        type: string
+        required: false
+      useragent:
+        title:
+          en: User Agent
+          zh-CN: "用户代理"
+        type: string
+        required: false
+      sessioncookiename:
+        title:
+          en: Session Cookie Name
+          zh-CN: "cookie"
+        type: string
+        required: false
+      directobjectreference:
+        title:
+          en: Direct Object Reference
+          zh-CN: "检查不安全的引用对象漏洞"
+        type: boolean
+        required: false
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success:
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      taskid:
+        title:
+          en: Task ID
+          zh-CN: "任务id"
+        type: string
+        required: false
+      errors: 
+        title:
+          en: Errors
+          zh-CN: "错误信息"
+        type: string
+        required: false
+  tasksstartwebsploit:
+    title:
+      en: Tasks Start Web sploit
+      zh-CN: "web利用"
+    input:
+      workspaceid:
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: true
+      targets:
+        title:
+          en: targets
+          zh-CN: "目标web漏洞"
+        type: string
+        description:
+          en: "JSON string, //post /rest_api/v3/tasks/web_ data is returned as the value of this parameter"
+          zh-CN: "JSON字符串, //POST /rest_api/v3/tasks/web_data, 返回data数据作为这个参数值"
+        required: true
+      timeout:
+        title: 
+          en: Timeout
+          zh-CN: "超时"
+        type: string
+        required: false
+      limitsessions:
+        title: 
+          en: Limit Sessions
+          zh-CN: "每个目标建立一个会话"
+        type: boolean
+        required: false
+      payloadtype:
+        title: 
+          en: Payload Type
+          zh-CN: "荷载类型"
+        type: string
+        required: false
+        enum:
+          - "Meterpreter"
+          - "Meterpreter 64-bit"
+          - "Command shell"
+          - "Powershell"
+      connection:
+        title: 
+          en: Connection
+          zh-CN: "连接类型"
+        type: string
+        required: false
+        enum: 
+          - "Auto"
+          - "Reverse"
+          - "Bind"
+      payloadports:
+        title: 
+          en: Payload Ports
+          zh-CN: "监听端口"
+        type: string
+        required: false
+      payloadhosts:
+        title: 
+          en: Payload Hosts
+          zh-CN: "监听主机"
+        type: string
+        required: false
+      httpusername:
+        title:
+          en: Http Username
+          zh-CN: "http用户名"
+        type: string
+        required: false
+      httppassword: 
+        title:
+          en: Http Password
+          zh-CN: "http密码"
+        type: password
+        required: false
+      httpdomain:   
+        title:
+          en: Http Domain
+          zh-CN: "http域"
+        type: string
+        required: false
+      cookie:
+        title:
+          en: Cookie
+          zh-CN: "http Cookie"
+        type: string
+        required: false
+      useragent:
+        title:
+          en: User Agent
+          zh-CN: "用户代理"
+        type: string
+        required: false
+    output:
+      statuscode:
+        title:
+          en: Status Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      success:
+        title:
+          en: Success
+          zh-CN: "结果"
+        type: string
+        required: false
+      workspaceid: 
+        title:
+          en: Workspace ID
+          zh-CN: "项目id"
+        type: string
+        required: false
+      taskid:
+        title:
+          en: Task ID
+          zh-CN: "任务id"
+        type: string
+        required: false
+      errors: 
+        title:
+          en: Errors
+          zh-CN: "错误信息"
+        type: string
+        required: false
+  
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,20 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "workspacescreate",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"boundary": "",
+			"description": "",
+			"limit_to_network": "0",
+			"name": "",
+			"owner_id": ""
+		}
+	}
+}

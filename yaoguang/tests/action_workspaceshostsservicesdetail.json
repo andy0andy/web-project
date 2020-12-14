@@ -1,0 +1,18 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "workspaceshostsservicesdetail",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"hostid": "",
+			"id": "",
+			"workspacesid": ""
+		}
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "tasksstartimport",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"autotagos": true,
+			"blackliststring": "",
+			"file": {
+				"content": "",
+				"filename": ""
+			},
+			"preservehosts": true,
+			"tags": "",
+			"workspaceid": ""
+		}
+	}
+}

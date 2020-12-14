@@ -1,0 +1,26 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "workspacesreportsgenerate",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"report": {
+				"email_recipients": "",
+				"excluded_addresses": "",
+				"file_fomats": "",
+				"included_addresses": "",
+				"name": "",
+				"options": "",
+				"report_type": "",
+				"sections": ""
+			},
+			"workspaceid": ""
+		}
+	}
+}

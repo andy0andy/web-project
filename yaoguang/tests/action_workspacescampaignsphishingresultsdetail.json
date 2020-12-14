@@ -1,0 +1,18 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "workspacescampaignsphishingresultsdetail",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {
+			"campaignid": "",
+			"id": "",
+			"workspaceid": ""
+		}
+	}
+}

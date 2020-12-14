@@ -1,0 +1,14 @@
+{
+	"version": "v1",
+	"type": "action_start",
+	"body": {
+		"action": "backupssee",
+		"meta": {},
+		"connection": {
+			"host": "",
+			"token": ""
+		},
+		"dispatcher": null,
+		"input": {}
+	}
+}
