@@ -4,6 +4,8 @@ import os
 import json
 from PIL import Image
 from loguru import logger
+import time
+import re
 
 
 # 异常处理
@@ -18,14 +20,35 @@ def errPro(func):
     return inner
 
 
+
+#去除特殊字符
+def isSpec(l):
+    l = json.loads(l)
+
+    comp = re.compile("[\u4e00-\u9fa5a-zA-Z\-0-9]{0,}")
+
+    for k,v in l.items():
+        words = comp.findall(v)
+        words = "".join(words)
+
+        l[k] = words
+    
+    return l
+
+
+
+
 # 读取songs.txt
-@ errPro
+@errPro
 def readSong():
 
     songs = os.path.join(os.path.abspath(os.path.dirname(__file__)), "songs.txt")
 
+
     with open(songs, "r", encoding='utf-8') as f:
-        song_list = [json.loads(l) for l in f.readlines()]
+        song_list = [isSpec(l) for l in f.readlines()]
+
+
 
     return song_list
 
@@ -38,24 +61,25 @@ def cropPic(pic_path, box):
     img = img.crop(box)
 
     img.save(pic_path)
+    
+    logger.info(f"{pic_path} ok")
 
 
 
 
 
-
-
-async def screenshotPic(songInfo):
+@errPro
+async def screenshotPic(songInfo, browser, semaphore):
     url = f"https://yoopu.me/view/{songInfo['id']}"
     pic_path = os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), "pus"), f"{songInfo['title']}-{songInfo['artist']}-{songInfo['type']}.png")
 
-    async with async_playwright() as asp:
-
-        browser = await asp.chromium.launch(headless=False)
+    async with semaphore:
 
         page = await browser.newPage()
 
         await page.goto(url)
+        
+        logger.info(f"{songInfo['title']} start")
 
         # 等待
         await page.waitForSelector("//hexi-sheet")
@@ -87,21 +111,44 @@ async def screenshotPic(songInfo):
         box = [location["x"], location["y"], location["x"]+location["width"], location["y"]+location["height"]]
         cropPic(pic_path, box)
 
+        await page.close()
+        logger.info(f"{songInfo['title']} end")
+
+
+async def main():
+
+    async with async_playwright() as asp:
+
+        browser = await asp.chromium.launch(headless=True)
+
+        # 信号量，限制并发数
+        semaphore = asyncio.Semaphore(6)
+
+        song_list = readSong()
+
+        tasks = [asyncio.ensure_future(screenshotPic(song, browser, semaphore)) for song in song_list]
+
+        dones, pendings = await asyncio.wait(tasks)
+
+        for t in dones:
+            t.result()
+
         await browser.close()
 
 
-
-
-
-
-
 if __name__ == "__main__":
-    song_list = readSong()
+
+    start = time.time()
+
+    log = logger.add(os.path.join(os.path.abspath(os.path.dirname(__file__)), "yoopu.log"))
 
     loop = asyncio.get_event_loop()
 
-    loop.run_until_complete(screenshotPic(song_list[0]))
+    loop.run_until_complete(main())
 
+    end = time.time()
+
+    logger.info(f"共耗时：{end - start}s")
 
 
 
