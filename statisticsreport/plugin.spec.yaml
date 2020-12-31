@@ -1,0 +1,67 @@
+plugin_spec_version: v2
+name: statisticsreport
+title: 
+  en: "Statistics Report"
+  zh-CN: "统计报表"
+description:
+  en: "Integrate and count all plug-in reports, and return them in the specified format"
+  zh-CN: "集成统计各插件报告，并以规定格式返回"
+version: 0.1.0
+vendor: chariot
+tags: 
+  - "report"
+enable_cache: true
+status: 
+  - "supported" 
+language: python
+
+
+
+
+
+
+actions:
+  merge:
+    title:
+      en: Merge
+      zh-CN: "整合报表"
+    input:
+      name:
+        title:
+          en: Name
+          zh-CN: "报表名字"
+        type: string
+        required: false
+      reports:
+        title:
+          en: Reports
+          zh-CN: "报表列表"
+        type: "[]string"
+        required: true
+    output:
+      code:
+        title:
+          en: Code
+          zh-CN: "状态码"
+        type: integer
+        required: true
+      msg:
+        title:
+          en: Message
+          zh-CN: "返回信息"
+        type: string
+        required: true
+      report:
+        title:
+          en: Report
+          zh-CN: "报表"
+        type: file
+        required: false 
+
+
+
+
+
+
+
+
