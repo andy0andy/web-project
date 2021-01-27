@@ -1,12 +1,12 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Text
 
 
 engine = create_engine("mysql+pymysql://root:123456andy@127.0.0.1:3306/threatreport")
 
-session = sessionmaker(engine)
+session = scoped_session(sessionmaker(engine))
 
 Model = declarative_base()
 
